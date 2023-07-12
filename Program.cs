@@ -2,23 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DroneDeliveryService
 {
     internal class Program
     {
         static void Main(string[] args)
-        {
-          
+        {          
             Console.WriteLine("Enter drone information:");
             string[] droneInfo = Console.ReadLine().Split(',');
 
             List<Drone> drones = CreateDrones(droneInfo);
            
-            Console.WriteLine("Enter locations and package weights (one per line):");
+            Console.WriteLine("Enter locations and package weights (one per line). If you want to finish inserting the locations press enter again and the program will distribute the locations by the indicated drones:");
             List<Location> locations = ReadLocations();
            
             AssignLocationsToDrones(locations, drones);
@@ -63,8 +59,8 @@ namespace DroneDeliveryService
 
         static void AssignLocationsToDrones(List<Location> locations, List<Drone> drones)
         {
-            locations = locations.OrderByDescending(x => x.PackageWeight).ToList();
-            drones = drones.OrderByDescending(x => x.MaxWeight).ToList();
+           locations = locations.OrderBy(x => x.PackageWeight).ToList();
+           drones = drones.OrderByDescending(x => x.MaxWeight).ToList();
                        
             while (locations.Count > 0)
             {
