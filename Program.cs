@@ -12,20 +12,17 @@ namespace DroneDeliveryService
     {
         static void Main(string[] args)
         {
-            // Read drone information from the user
+          
             Console.WriteLine("Enter drone information:");
             string[] droneInfo = Console.ReadLine().Split(',');
 
             List<Drone> drones = CreateDrones(droneInfo);
-
-            // Read locations and package weights from the user
+           
             Console.WriteLine("Enter locations and package weights (one per line):");
             List<Location> locations = ReadLocations();
-
-            // Assign locations to drones
+           
             AssignLocationsToDrones(locations, drones);
-
-            // Print the delivery plan for each drone
+           
             PrintDeliveryPlan(drones);
 
             Console.WriteLine("Press any key to end execution");
@@ -66,38 +63,39 @@ namespace DroneDeliveryService
 
         static void AssignLocationsToDrones(List<Location> locations, List<Drone> drones)
         {
-            locations = locations.OrderBy(x => x.PackageWeight).ToList();
+            locations = locations.OrderByDescending(x => x.PackageWeight).ToList();
             drones = drones.OrderByDescending(x => x.MaxWeight).ToList();
                        
             while (locations.Count > 0)
             {
-                int locationsCount = SearchDrones(locations, drones);
+                int locationsCount = SearchLocations(locations, drones);
                 locations = locations.Skip(locationsCount).ToList();               
             }
 
         }
 
-        static int SearchDrones(List<Location> locations, List<Drone> drones)
+        static int SearchLocations(List<Location> locations, List<Drone> drones)
         {
             int locationsCountAll = 0;
             foreach (Drone drone in drones)
             {
                 int locationsCountPerDrone = 0;
                 for (int i = 0; i < locations.Count; i++)
-                {                   
+                {
                     if (drone.RemainingCapacity >= locations[i].PackageWeight)
                     {
                         drone.AddLocation(locations[i]);
                         locationsCountPerDrone++;
                         locationsCountAll++;
                     }
-                    else
-                    {
-                        drone.ResetRemainingCapacityToNextDrone();
-                        locations = locations.Skip(locationsCountPerDrone).ToList();
+                    if (drone.RemainingCapacity == 0) 
+                    {                     
                         break;
-                    }
+                    }                   
                 }
+
+                drone.ResetRemainingCapacityToNextDrone();
+                locations = locations.Skip(locationsCountPerDrone).ToList();
 
             }
             return locationsCountAll;
