@@ -66,7 +66,7 @@ namespace DroneDeliveryService
 
         static void AssignLocationsToDrones(List<Location> locations, List<Drone> drones)
         {
-            locations = locations.OrderByDescending(x => x.PackageWeight).ToList();
+            locations = locations.OrderBy(x => x.PackageWeight).ToList();
             drones = drones.OrderByDescending(x => x.MaxWeight).ToList();
                        
             while (locations.Count > 0)
