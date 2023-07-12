@@ -9,8 +9,8 @@ namespace DroneDeliveryService.Models
     class Drone
     {
         public string Name { get; }
-        public int MaxWeight { get; }
-        public int RemainingCapacity { get; private set; }
+        public int MaxWeight { get; private set; }
+        public int RemainingCapacity { get; set; }
         public List<DeliveryTrip> DeliveryTrips { get; }
 
         public Drone(string name, int maxWeight)
@@ -23,17 +23,20 @@ namespace DroneDeliveryService.Models
 
         public void AddLocation(Location location)
         {
-            if (RemainingCapacity >= location.PackageWeight)
+            RemainingCapacity -= location.PackageWeight;
+
+            if (DeliveryTrips.Count == 0 || DeliveryTrips[DeliveryTrips.Count - 1].TotalWeight + location.PackageWeight > MaxWeight)
             {
-                RemainingCapacity -= location.PackageWeight;
-
-                if (DeliveryTrips.Count == 0 || DeliveryTrips[DeliveryTrips.Count - 1].TotalWeight + location.PackageWeight > MaxWeight)
-                {
-                    DeliveryTrips.Add(new DeliveryTrip());
-                }
-
-                DeliveryTrips[DeliveryTrips.Count - 1].AddLocation(location);
+                DeliveryTrips.Add(new DeliveryTrip());
             }
+
+            DeliveryTrips[DeliveryTrips.Count - 1].AddLocation(location);
+
+        }
+
+        public void ResetRemainingCapacityToNextDrone()
+        {
+            RemainingCapacity = MaxWeight;
         }
     }
 }

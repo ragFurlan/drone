@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,27 +66,41 @@ namespace DroneDeliveryService
 
         static void AssignLocationsToDrones(List<Location> locations, List<Drone> drones)
         {
-            locations.Sort((a, b) => b.PackageWeight.CompareTo(a.PackageWeight));
-
-            foreach (Location location in locations)
+            locations = locations.OrderByDescending(x => x.PackageWeight).ToList();
+            drones = drones.OrderByDescending(x => x.MaxWeight).ToList();
+                       
+            while (locations.Count > 0)
             {
-                Drone bestDrone = null;
-                int bestRemainingCapacity = int.MaxValue;
+                int locationsCount = SearchDrones(locations, drones);
+                locations = locations.Skip(locationsCount).ToList();               
+            }
 
-                foreach (Drone drone in drones)
-                {
-                    if (drone.RemainingCapacity >= location.PackageWeight && drone.RemainingCapacity < bestRemainingCapacity)
+        }
+
+        static int SearchDrones(List<Location> locations, List<Drone> drones)
+        {
+            int locationsCountAll = 0;
+            foreach (Drone drone in drones)
+            {
+                int locationsCountPerDrone = 0;
+                for (int i = 0; i < locations.Count; i++)
+                {                   
+                    if (drone.RemainingCapacity >= locations[i].PackageWeight)
                     {
-                        bestDrone = drone;
-                        bestRemainingCapacity = drone.RemainingCapacity;
+                        drone.AddLocation(locations[i]);
+                        locationsCountPerDrone++;
+                        locationsCountAll++;
+                    }
+                    else
+                    {
+                        drone.ResetRemainingCapacityToNextDrone();
+                        locations = locations.Skip(locationsCountPerDrone).ToList();
+                        break;
                     }
                 }
 
-                if (bestDrone != null)
-                {
-                    bestDrone.AddLocation(location);
-                }
             }
+            return locationsCountAll;
         }
 
         static void PrintDeliveryPlan(List<Drone> drones)
