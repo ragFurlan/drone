@@ -97,12 +97,14 @@ namespace DroneDeliveryService
         static List<Location> SearchLocations3(List<Location> locations, Drone drone, List<Location> locationsCountAll)
         {
             List<Location> locationForTrip = new List<Location>();
+            
             for (int l = 0; l < locations.Count; l++)
             {
                 if (drone.RemainingCapacity >= locations[l].PackageWeight)
                 {
-                    locationForTrip.Add(locations[l]);
                     drone.AddLocation(locations[l]);
+                    locationForTrip.Add(locations[l]);
+                    
                 }
                 if (drone.RemainingCapacity == 0)
                 {
@@ -111,12 +113,11 @@ namespace DroneDeliveryService
             }
 
             foreach (var location in locationForTrip)
-            {
-                locationsCountAll.Remove(location);
-               
+            {               
+                locationsCountAll.Remove(location);               
             }
-
-            if (drone.RemainingCapacity == 0)
+           
+            if (drone.RemainingCapacity == 0 || drone.RemainingCapacity < (drone.MaxWeight * 0.03))
             {
                 drone.ResetRemainingCapacityToNextDrone();
             }
