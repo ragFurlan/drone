@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 
 namespace DroneDeliveryService
 {
@@ -65,36 +64,33 @@ namespace DroneDeliveryService
 
             while (locations.Count > 0)
             {
-                locations = SearchLocations(locations, drones);
+                locations = SearchLocationsByDrone(locations, drones);
             }
 
         }
 
-        static List<Location> SearchLocations(List<Location> locations, List<Drone> drones)
+        static List<Location> SearchLocationsByDrone(List<Location> locations, List<Drone> drones)
         {
             List<Location> locationsCountAll = locations;
             foreach (Drone drone in drones)
             {
-                locations = SearchLocations2(locations, drone, locationsCountAll);
+                locations = SearchLocationsWhileRemainingCapacityByDrone(locations, drone, locationsCountAll);
 
             }
             return locations;
         }
 
-        static List<Location> SearchLocations2(List<Location> locations, Drone drone, List<Location> locationsCountAll)
+        static List<Location> SearchLocationsWhileRemainingCapacityByDrone(List<Location> locations, Drone drone, List<Location> locationsCountAll)
         {
-            List<Location> locationForTrip = new List<Location>();
-
             while (drone.RemainingCapacity == drone.MaxWeight && locationsCountAll.Count > 0)
             {
-                locationsCountAll = SearchLocations3(locations, drone, locationsCountAll);
+                locationsCountAll = SearchLocationsWhileRemainingCapacity(locations, drone, locationsCountAll);
             }
 
             return locationsCountAll;
-
         }
 
-        static List<Location> SearchLocations3(List<Location> locations, Drone drone, List<Location> locationsCountAll)
+        static List<Location> SearchLocationsWhileRemainingCapacity(List<Location> locations, Drone drone, List<Location> locationsCountAll)
         {
             List<Location> locationForTrip = new List<Location>();
             

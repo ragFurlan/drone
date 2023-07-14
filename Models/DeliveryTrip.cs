@@ -5,7 +5,7 @@ namespace DroneDeliveryService.Models
 {
     class DeliveryTrip
     {
-        private List<Location> locations;
+        private readonly List<Location> locations;
 
         public int TotalWeight { get; private set; }
 
@@ -29,7 +29,7 @@ namespace DroneDeliveryService.Models
                 sb.Append(location.Name);
                 sb.Append(", ");
             }
-            sb.Length -= 2; // Remove the trailing comma and space
+            sb.Length -= 2;
 
             return sb.ToString();
         }

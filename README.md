@@ -2,9 +2,7 @@
 
 ## Algoritmy Explanation and Approach
 
-- The algorithm proposed in the input and output examples in the "Coding Test" is not efficient for two reasons: firstly, when using one drone more than the other, there is a risk of damaging the most used drone more quickly; secondly, the algorithm may not allow multiple drones to be sent simultaneously, resulting in a loss of time.
-
-- To improve efficiency, I am suggesting an alternative algorithm that requires the same number of trips to deliver packages, but saves time by allowing multiple drones to be sent simultaneously.
+- Despite not having the same output as proposed in the input and output examples in the "Coding Test", the proposed algorithm makes as few trips as possible.
 
 _______________
 
