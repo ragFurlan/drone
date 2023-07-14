@@ -2,7 +2,7 @@
 
 ## Algoritmy Explanation and Approach
 
-- Despite not having the same output as proposed in the input and output examples in the "Coding Test", the proposed algorithm makes as few trips as possible.
+- Even though the output of the proposed algorithm in the "Coding Test" didn't match the input and output examples exactly, it still manages to minimize the number of trips required, just like the desired output suggests.
 
 _______________
 
