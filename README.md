@@ -14,19 +14,19 @@ _______________
 
 - The AssignLocationsToDrones function apply all the logic.
 
-- It sort the list of locations in desce200nding order based on package weight. Sorting the locations based on package weight ensures that heavier packages are assigned earlier, potentially leading to better overall efficiency in delivery planning.
+- It sorts the list of locations in desce200nding order based on package weight. Sorting the locations based on package weight ensures that heavier packages are assigned earlier, potentially leading to better overall efficiency in delivery planning.
 
-- It sort the list of drones in descending order based on their maximum weight capacity. By considering drones with higher capacities first, it maximizes the utilization of drone capacities and increases the chances of successfully assigning more locations.
+- It sorts the list of drones in descending order based on their maximum weight capacity. By considering drones with higher capacities first, it maximizes the utilization of drone capacities and increases the chances of successfully assigning more locations.
 
 - While there are still locations remaining to be assigned:
 
-	a. It search for drones that have remaining capacity to carry the packages.
+	a. It search for drones that have the remaining capacity to carry the packages.
 
 	b. For each drone, iterate through the list of locations and check if the drone's remaining capacity is sufficient to carry the package weight.
 
 	c. If the drone has enough capacity, assign the location to the drone by adding it to the drone's list of assigned locations and update the remaining capacity of the drone.
 
-	e. If at the end of the cycle there is still space in the drone to carry more packages, but the list of locations has already been covered, it moves on to the next drone with a smaller capacity.
+	e. If at the end of the cycle there is still space in the drone greater than five percent or  to carry more packages, but the list of locations has already been covered, it moves on to the next drone with a smaller capacity.
 
 	f. Repeat the process until either all locations are assigned or no drone has enough remaining capacity.
 
