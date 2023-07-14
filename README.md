@@ -117,7 +117,7 @@ LocationI, 70
 LocationJ, 50 
 ```
 
-*** OUTPUT FILE #2*** 
+***OUTPUT FILE #2*** 
 ```
 DroneA
 
